@@ -19,25 +19,30 @@ func Unpack(str string) (string, error) {
 	letter := rune(-1)
 
 	for i, char := range str {
-		//nolint:ifElseChain
-		if char > '9' || char < '0' {
-			if letter == -1 {
-				letter = char
-			} else {
-				result.WriteString(string(letter))
+		switch {
+		case char > '9' || char < '0':
+			{
+				if letter == -1 {
+					letter = char
+				} else {
+					result.WriteString(string(letter))
 
-				letter = char
+					letter = char
+				}
 			}
-		} else if char >= '0' && char <= '9' {
-			if n == -1 && letter != -1 {
-				n = (int(char) - '0')
-			} else {
+		case char >= '0' && char <= '9':
+			{
+				if n == -1 && letter != -1 {
+					n = (int(char) - '0')
+				} else {
+					return "", ErrInvalidString
+				}
+			}
+		default:
+			{
 				return "", ErrInvalidString
 			}
-		} else {
-			return "", ErrInvalidString
 		}
-
 		if n != -1 {
 			result.WriteString(strings.Repeat(string(letter), n))
 

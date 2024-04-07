@@ -23,14 +23,7 @@ func TestUnpack(t *testing.T) {
 		// {input: `qwe\\\3`, expected: `qwe\3`},
 	}
 
-	for _, tc := range tests {
-		tc := tc
-		t.Run(tc.input, func(t *testing.T) {
-			result, err := Unpack(tc.input)
-			require.NoError(t, err)
-			require.Equal(t, tc.expected, result)
-		})
-	}
+	TestsGroupNoErrorRuner(tests, t)
 }
 
 func TestUnpackInvalidString(t *testing.T) {
@@ -40,6 +33,32 @@ func TestUnpackInvalidString(t *testing.T) {
 		t.Run(tc, func(t *testing.T) {
 			_, err := Unpack(tc)
 			require.Truef(t, errors.Is(err, ErrInvalidString), "actual error %q", err)
+		})
+	}
+}
+
+func TestUnpackStringWithSpecialChar(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected string
+	}{
+		{input: "d\n5abc", expected: "d\n\n\n\n\nabc"},
+		{input: "d\t4", expected: "d\t\t\t\t"},
+		{input: "d\n", expected: "d\n"},
+	}
+	TestsGroupNoErrorRuner(tests, t)
+}
+
+func TestsGroupNoErrorRuner(tests []struct {
+	input    string
+	expected string
+}, t *testing.T) {
+	for _, tc := range tests {
+		tc := tc
+		t.Run(tc.input, func(t *testing.T) {
+			result, err := Unpack(tc.input)
+			require.NoError(t, err)
+			require.Equal(t, tc.expected, result)
 		})
 	}
 }

@@ -13,6 +13,8 @@ func TestUnpack(t *testing.T) {
 
 		expected string
 	}{
+		{input: "aaa0ф", expected: "aaф"},
+
 		{input: "a4bc2d5e", expected: "aaaabccddddde"},
 
 		{input: "abccd", expected: "abccd"},

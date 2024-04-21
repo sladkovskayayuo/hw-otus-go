@@ -20,13 +20,11 @@ func Unpack(str string) (string, error) {
 
 	for _, char := range str {
 		if char > '9' || char < '0' {
-			if letter == -1 {
-				letter = char
-			} else {
+			if letter != -1 {
 				result.WriteString(string(letter))
-
-				letter = char
 			}
+
+			letter = char
 		} else {
 			if n == -1 && letter != -1 {
 				n = (int(char) - '0')

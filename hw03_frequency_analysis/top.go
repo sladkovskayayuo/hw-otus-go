@@ -19,8 +19,7 @@ func Top10(str string) []string {
 		Key   string
 		Value int
 	}
-
-	var sm []kv
+	sm := make([]kv, 0)
 	for k, v := range m {
 		sm = append(sm, kv{k, v})
 	}
@@ -32,7 +31,7 @@ func Top10(str string) []string {
 		return sm[i].Value > sm[j].Value
 	})
 
-	var keys []string
+	keys := make([]string, 0)
 	for i, v := range sm {
 		if i < 10 || sm[9].Value == sm[i].Value {
 			keys = append(keys, v.Key)

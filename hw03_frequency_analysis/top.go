@@ -33,12 +33,12 @@ func Top10(str string) []string {
 
 	keys := make([]string, 0)
 	for i, v := range sm {
-		if i < 10 || sm[9].Value == sm[i].Value {
+		if i < 10 {
 			keys = append(keys, v.Key)
 		} else {
 			break
 		}
 	}
 
-	return keys[:10]
+	return keys
 }

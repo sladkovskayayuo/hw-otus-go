@@ -1,6 +1,7 @@
 package hw04lrucache
 
 import (
+	"fmt"
 	"math/rand"
 	"strconv"
 	"sync"
@@ -34,6 +35,8 @@ func TestCache(t *testing.T) {
 		require.Equal(t, 100, val)
 
 		val, ok = c.Get("bbb")
+		k := val.(int)
+		fmt.Print(k)
 		require.True(t, ok)
 		require.Equal(t, 200, val)
 
@@ -47,6 +50,32 @@ func TestCache(t *testing.T) {
 		val, ok = c.Get("ccc")
 		require.False(t, ok)
 		require.Nil(t, val)
+	})
+
+	t.Run("purge logic", func(t *testing.T) {
+		// Write me
+	})
+}
+
+func TestCache2(t *testing.T) {
+	t.Run("addition cache test", func(t *testing.T) {
+		c := NewCache(2)
+
+		_, ok := c.Get("aaa")
+		require.False(t, ok)
+
+		_, ok = c.Get("bbb")
+		require.False(t, ok)
+	})
+
+	t.Run("simple", func(t *testing.T) {
+		c := NewCache(5)
+
+		wasInCache := c.Set("aaa", 100)
+		require.False(t, wasInCache)
+
+		wasInCache = c.Set("bbb", 200)
+		require.False(t, wasInCache)
 	})
 
 	t.Run("purge logic", func(t *testing.T) {

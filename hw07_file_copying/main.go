@@ -17,6 +17,7 @@ func init() {
 }
 
 func main() {
-	flag.Parse()
+	//flag.Parse()
+	Copy("testdata/input.txt", "./testFile", 0, 10240)
 	// Place your code here.
 }
